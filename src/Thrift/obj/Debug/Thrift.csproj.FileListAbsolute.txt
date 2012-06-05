@@ -1,0 +1,5 @@
+C:\Downloads\ASG\Evernote\src\Thrift\bin\Debug\Thrift.dll
+C:\Downloads\ASG\Evernote\src\Thrift\bin\Debug\Thrift.pdb
+C:\Downloads\ASG\Evernote\src\Thrift\obj\Debug\ResolveAssemblyReference.cache
+C:\Downloads\ASG\Evernote\src\Thrift\obj\Debug\Thrift.dll
+C:\Downloads\ASG\Evernote\src\Thrift\obj\Debug\Thrift.pdb
