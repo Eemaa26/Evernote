@@ -15,15 +15,16 @@ In order to run the sample code, you need a user account on the sandbox service 
 
 In order to run the client client sample code, you need a developer token. Get one at https://sandbox.evernote.com/api/DeveloperToken.action
 
-Twitter Integeration
+Twitter Integration
 --------------------
-The SDK has been modified to post Tweets to Twitter using the Twitterizer Open Source
+The sample has been modified to post Tweets to Twitter using the Twitterizer Open Source
 Project.  A Twitter Developer Account is required.  From your Twitter Developer Account,
 you can create an Application.   Creating an Application will provide a Consumer Key,
-Consumer Secret, Access Token, and Access Secret.  OAuth is normally used for authentication
-but for this example we generate the Access Token from the Twitter Application page.
+Consumer Secret, Access Token, and Access Secret.  OAuth is normally used for authentication,
+but for this example, we generate the Access Token from the Twitter Application page.
 
 Twitterizer - https://github.com/Twitterizer/Twitterizer
+
 Twitter Developer Page - https://dev.twitter.com/apps/new
 
 Getting Started - Windows
