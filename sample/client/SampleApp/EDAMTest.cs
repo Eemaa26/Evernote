@@ -23,7 +23,6 @@ using System.Security.Cryptography;
 using Thrift;
 using Thrift.Protocol;
 using Thrift.Transport;
-using Evernote.TwitterHelper.Server;
 using Evernote.EDAM.Type;
 using Evernote.EDAM.UserStore;
 using Evernote.EDAM.NoteStore;

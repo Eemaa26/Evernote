@@ -1,5 +1,0 @@
-C:\Downloads\ASG\Evernote\Twitter\TwitterHelper\bin\Debug\TwitterHelper.dll
-C:\Downloads\ASG\Evernote\Twitter\TwitterHelper\bin\Debug\TwitterHelper.pdb
-C:\Downloads\ASG\Evernote\Twitter\TwitterHelper\obj\Debug\ResolveAssemblyReference.cache
-C:\Downloads\ASG\Evernote\Twitter\TwitterHelper\obj\Debug\TwitterHelper.dll
-C:\Downloads\ASG\Evernote\Twitter\TwitterHelper\obj\Debug\TwitterHelper.pdb

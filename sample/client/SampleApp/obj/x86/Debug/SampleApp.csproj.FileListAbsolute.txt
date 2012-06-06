@@ -7,10 +7,8 @@ C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\EDAMTest.exe
 C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\EDAMTest.pdb
 C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\Evernote.dll
 C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\Thrift.dll
-C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\TwitterHelper.dll
 C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\Evernote.pdb
 C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\Thrift.pdb
-C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\TwitterHelper.pdb
 C:\Downloads\ASG\Evernote\sample\client\SampleApp\obj\x86\Debug\EDAMTest.exe
 C:\Downloads\ASG\Evernote\sample\client\SampleApp\obj\x86\Debug\EDAMTest.pdb
 C:\Downloads\ASG\Evernote\sample\client\SampleApp\bin\Debug\Newtonsoft.Json.dll
