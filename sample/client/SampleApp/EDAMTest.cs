@@ -23,11 +23,14 @@ using System.Security.Cryptography;
 using Thrift;
 using Thrift.Protocol;
 using Thrift.Transport;
+using Evernote.TwitterHelper.Server;
 using Evernote.EDAM.Type;
 using Evernote.EDAM.UserStore;
 using Evernote.EDAM.NoteStore;
 using Evernote.EDAM.Error;
 using SampleApp.Properties;
+using Twitterizer;
+
 
 public class EDAMTest {
     public static void Main(string[] args) {
@@ -41,8 +44,10 @@ public class EDAMTest {
         if (authToken == "your developer token") {
           Console.WriteLine("Please fill in your developer token");
           Console.WriteLine("To get a developer token, visit https://sandbox.evernote.com/api/DeveloperToken.action");
+          Console.ReadLine();
           return;
         }
+
 
         // Initial development is performed on our sandbox server. To use the production 
         // service, change "sandbox.evernote.com" to "www.evernote.com" and replace your
@@ -50,10 +55,10 @@ public class EDAMTest {
         // https://www.evernote.com/api/DeveloperToken.action
         String evernoteHost = "sandbox.evernote.com";
                 
-        Uri userStoreUrl = new Uri("https://" + evernoteHost + "/edam/user");
+        Uri userStoreUrl              = new Uri("https://" + evernoteHost + "/edam/user");
         TTransport userStoreTransport = new THttpClient(userStoreUrl);
-        TProtocol userStoreProtocol = new TBinaryProtocol(userStoreTransport);
-        UserStore.Client userStore = new UserStore.Client(userStoreProtocol);
+        TProtocol userStoreProtocol   = new TBinaryProtocol(userStoreTransport);
+        UserStore.Client userStore    = new UserStore.Client(userStoreProtocol);
         
         bool versionOK =
             userStore.checkVersion("Evernote EDAMTest (C#)",
@@ -71,8 +76,8 @@ public class EDAMTest {
         String noteStoreUrl = userStore.getNoteStoreUrl(authToken);
 
         TTransport noteStoreTransport = new THttpClient(new Uri(noteStoreUrl));
-        TProtocol noteStoreProtocol = new TBinaryProtocol(noteStoreTransport);
-        NoteStore.Client noteStore = new NoteStore.Client(noteStoreProtocol);
+        TProtocol noteStoreProtocol   = new TBinaryProtocol(noteStoreTransport);
+        NoteStore.Client noteStore    = new NoteStore.Client(noteStoreProtocol);
 
         // List all of the notebooks in the user's account        
         List<Notebook> notebooks = noteStore.listNotebooks(authToken);
@@ -83,7 +88,7 @@ public class EDAMTest {
 
         // Sample Code To Add A Notebook
         //Notebook newNoteBook = new Notebook();
-        //newNoteBook.Name = "Test Notebook";
+        //newNoteBook.Name     = "Test Notebook";
         //noteStore.createNotebook(authToken, newNoteBook); 
 
         Console.WriteLine();
@@ -92,8 +97,8 @@ public class EDAMTest {
                 
         // To create a new note, simply create a new Note object and fill in 
         // attributes such as the note's title.
-        Note note = new Note();
-        note.Title = "Test note from EDAMTest.cs";
+        Note note  = new Note();
+        note.Title = "Evernote Logo";
 
         // To include an attachment such as an image in a note, first create a Resource
         // for the attachment. At a minimum, the Resource contains the binary attachment 
@@ -103,14 +108,14 @@ public class EDAMTest {
         byte[] image = (byte[])converter.ConvertTo(Resources.enlogo, typeof(byte[]));
         byte[] hash = new MD5CryptoServiceProvider().ComputeHash(image);
         
-        Data data = new Data();
-        data.Size = image.Length;
+        Data data     = new Data();
+        data.Size     = image.Length;
         data.BodyHash = hash;
-        data.Body = image;
+        data.Body     = image;
         
         Resource resource = new Resource();
-        resource.Mime = "image/png";
-        resource.Data = data;
+        resource.Mime     = "image/png";
+        resource.Data     = data;
 
         // Now, add the new Resource to the note's list of resources
         note.Resources = new List<Resource>();
@@ -134,7 +139,74 @@ public class EDAMTest {
         // The new Note object that is returned will contain server-generated
         // attributes such as the new note's unique GUID.
         Note createdNote = noteStore.createNote(authToken, note);
-        
+
+        Console.WriteLine();
         Console.WriteLine("Successfully created new note with GUID: " + createdNote.Guid);
+        Console.WriteLine();
+ 
+        // Share The Newly Created Note To Provide Access Using An Evernote URL
+        // This Document Will Be Publicly Accessible.  
+        string noteKey = noteStore.shareNote(authToken, createdNote.Guid);
+
+        Console.WriteLine();
+        Console.WriteLine("Successfully shared new note with Note Key: " + noteKey);
+        Console.WriteLine();
+
+        // Twitter Integration
+        try
+        {
+
+            // You Can Find Your SharedId By Sharing A Document On Your Evernote Sandbox Account
+            // The Evernote Generated URL Will Contain This Value
+            string sharedId = "s1";
+            string noteLink = "https://sandbox.evernote.com/shard/" + sharedId + "/sh/" + createdNote.Guid + "/" + noteKey;
+
+            // You Will Need To Create A Twitter Developer Account For This Information.
+            // All Of The Values Below Will Be Generated From Your Twitter Developer Account
+            // Login In To Twitter And Use The Following URL:  https://dev.twitter.com/apps
+            //   1. Create Twitter Developer Account
+            //   2. Create A New Application
+            //   2. Set Access Level To Read and Write On The Application Page
+            //   3. Generate Access Token At Bottom Of The Application Page
+            OAuthTokens oaTokens       = new OAuthTokens();
+            oaTokens.AccessToken       = "Your Twitter Access Token Here";
+            oaTokens.AccessTokenSecret = "Your Twitter Access Token Secret Here";
+            oaTokens.ConsumerKey       = "Your Twitter ConsumerKey Here";
+            oaTokens.ConsumerSecret    = "Your Twitter ConsumerKey Here";
+
+            // Truncate Doc Title If It Is Longer Than 40 Characters
+            string docTitle = createdNote.Title;
+            if (docTitle.Length > 40)
+            {
+                docTitle.Substring(0, 40);
+            }
+
+            // Truncate Message If It Is Longer Than 140 Characters
+            string message = "Evernote Doc - " + docTitle;
+            if (message.Length > 140)
+            {
+                message = message.Substring(0, 140);
+            }
+            // Add URL To Tweet.  Twitter Will Shorten If Neccessary
+            message += " " + noteLink;
+
+            // Update Twitter Status And Check Result For Success
+            TwitterResponse<TwitterStatus> twStatus = TwitterStatus.Update(oaTokens, message); 
+            if (twStatus.Result.ToString().ToLower() != "success")
+            {
+                throw new Exception("Twitter Status Not Updated");
+            }
+
+            Console.WriteLine();
+            Console.Write("Document Posted To Twitter");
+            Console.WriteLine();
+
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.ToString());
+        }
+
+        Console.ReadLine();
     }
 }

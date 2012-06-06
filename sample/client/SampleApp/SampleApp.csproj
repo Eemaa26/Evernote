@@ -11,7 +11,8 @@
     <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>EDAMTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -34,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\Twitterizer\Twitterizer-Twitterizer-ee8c9fa\Debug\Twitterizer2\Full\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -42,6 +46,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Twitterizer2, Version=2.4.1.35619, Culture=neutral, PublicKeyToken=69d1469eac671567, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Twitterizer\Twitterizer-Twitterizer-ee8c9fa\Debug\Twitterizer2\Full\Twitterizer2.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EDAMTest.cs" />
@@ -61,6 +69,10 @@
       <Project>{499EB63C-D74C-47E8-AE48-A2FC94538E9D}</Project>
       <Name>Thrift</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Twitter\TwitterHelper\TwitterHelper.csproj">
+      <Project>{C9B47147-835B-4529-90BE-6707E878FB04}</Project>
+      <Name>TwitterHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -69,6 +81,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Resources\enlogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
